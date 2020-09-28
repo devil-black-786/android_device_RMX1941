@@ -1,34 +1,24 @@
 # MTK platform .rc configure
 
-import ${ro.vendor.rc}init.connectivity.rc
+import /vendor/etc/init/hw/init.connectivity.rc
 import /vendor/etc/init/hw/init.mt6765.usb.rc
 import /vendor/etc/init/hw/init.project.rc
 import /FWUpgradeInit.rc
 import /vendor/etc/init/hw/init.aee.rc
 import /system/etc/init/hw/init.aee.rc
-import ${ro.vendor.rc}init.volte.rc
-import ${ro.vendor.rc}init.mal.rc
-import ${ro.vendor.rc}init.sensor_1_0.rc
-#ifdef VENDOR_EDIT
-#laichenhui@RM.memory.zram remove this rc in mt6765.
-#import ${ro.vendor.rc}init.ago.rc
-#endif
-#Shupeng.Zhou@BSP.Fingerprint.Basic 2018/10/16 Add for key writing
-import /init.oppo.face.rc
-import /init.oppo.seccommon.rc
-#endif
+import /vendor/etc/init/hw/init.volte.rc
+import /vendor/etc/init/hw/init.mal.rc
+import /vendor/etc/init/hw/init.sensor_1_0.rc
+
 
 # init.modem.rc must be the LAST rc file because vold.post_fs_data_done is set in it
-import ${ro.vendor.rc}init.modem.rc
+import /vendor/etc/init/hw/init.modem.rc
 # *** DO NOT import the new rc file after this line ***
 
 on early-init
     write /proc/bootprof "INIT:early-init"
     # boot perf. tune
-# ifdef ODM_WT_EDIT
-# Qun.Lin@ODM_WT.Memroy.Performance, 2020/05/08, limit cpu to max core and freq during booting up
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "0 0 0 0"
-# endif /*ODM_WT_EDIT*/
     write /sys/devices/platform/10012000.dvfsrc/helio-dvfsrc/dvfsrc_req_ddr_opp 0
     mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
@@ -42,9 +32,6 @@ on init
 
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
-
-    # if primary storage is physical, set ro.vold.primary_physical to 1
-    # setprop ro.vold.primary_physical 1
 
 # Temp Backward compatibility
     mkdir /mnt/vendor/protect_f 0771 system system
@@ -146,7 +133,8 @@ on fs
     #endif /*VENDOR_EDIT*/
     wait_for_prop hwservicemanager.ready "true"
     start vendor.boot-hal-1-0
-    mount_all /vendor/etc/fstab.mt6765
+    mount_all /vendor/etc/fstab.mt6785 --early
+    mount_all /vendor/etc/fstab.mt6785 --late
     exec /system/bin/tune2fs -O has_journal -u 10010 -r 4096 /dev/block/platform/bootdevice/by-name/userdata
     write /sys/kernel/debug/tracing/trace_marker "E"
     write /proc/bootprof "INIT:Mount_END"
@@ -1051,41 +1039,6 @@ service cmmb /system/bin/cmmbsp
     user root
     group system audio camera graphics inet net_bt net_bt_admin net_bw_acct media
     ioprio rt 4
-
-#service dpfd /vendor/bin/dpfd
-#	user root
-#	group system media
-
-#
-#  External Modme control related services
-#
-
-#
-#  Modem related services (Begin)
-#
-##Add by T.Zh for ppp daemon
-#service pppd /system/bin/pppd file /data/misc/ppp/ppp_options
-#    user root
-#    disabled
-#    oneshot
-#
-##
-#
-#  Modem related services (End)
-#
-
-#add for power-off alarm
-#service poad /vendor/bin/poad
-#    class main
-#    user system
-#    group system
-#    oneshot
-
-#service BGW /vendor/xbin/BGW
-#	user system
-#	group gps system radio
-#	class main
-
 
 # Battery info
 on property:persist.vendor.mediatek.fg.disable=1
