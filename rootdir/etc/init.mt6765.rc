@@ -24,6 +24,15 @@ on early-init
     chmod 0755 /sys/kernel/debug
 
 on init
+
+    # Force disable all VoLTE support -- it requires intensive modification of frameworks
+    # without framework support it creates all sorts of problems. Disable it.
+    setprop persist.vendor.mtk.volte.enable 0
+    setprop persist.vendor.mtk_ct_volte_support 0
+
+    # A wretched solution for incoming calls
+    mount none /system/lib64/libmtk-ril.so /vendor/lib64/libmtk-ril.so bind
+
     # create io boost group
     mkdir /dev/stune/io
     chown root system /dev/stune/io
@@ -152,6 +161,13 @@ on fs
 
 on post-fs
     write /proc/bootprof "INIT:post-fs"
+
+    # Disable vendor overlays
+    mount none /dev/null vendor/overlay/framework-res__auto_generated_rro.apk bind
+    mount none /dev/null vendor/overlay/SysuiDarkTheme/SysuiDarkThemeOverlay.apk bind
+    mount none /dev/null vendor/overlay/DisplayCutoutEmulationTall/DisplayCutoutEmulationTallOverlay.apk bind
+    mount none /dev/null vendor/overlay/DisplayCutoutEmulationDouble/DisplayCutoutEmulationDoubleOverlay.apk bind
+    mount none /dev/null vendor/overlay/DisplayCutoutEmulationCorner/DisplayCutoutEmulationCornerOverlay.apk bind
 
     # boot perf. tune
     write /proc/perfmgr/boost_ctrl/eas_ctrl/boot_boost "0 100"
