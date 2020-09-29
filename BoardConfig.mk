@@ -9,6 +9,7 @@ DEVICE_PATH := device/realme/RMX1941
 BOARD_VENDOR := realme
 
 # Assert
+TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
 TARGET_OTA_ASSERT_DEVICE := RMX1941,RMX1945,RMX1943
 
 # system-as-root aka SAR
