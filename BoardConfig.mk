@@ -126,4 +126,7 @@ TARGET_IGNORES_FTP_PPTP_CONNTRACK_FAILURE := true
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
+# Sepolicy
+BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
+
 -include vendor/realme/RMX1941/BoardConfigVendor.mk
