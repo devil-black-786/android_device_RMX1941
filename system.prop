@@ -1,3 +1,20 @@
+ #
+# Copyright 2020 The Android Open Source Project
+# Copyright (C) 2020 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 ro.dolby.model=oppoEffectModel
 ro.dolby.device=oppoEffectDevice
 ro.dolby.manufacturer=OPPO
@@ -13,6 +30,29 @@ ro.dolby.brand=OPPO
 vendor.rild.libpath=mtk-ril.so
 vendor.rild.libargs=-d /dev/ttyC0
 
+wifi.interface=wlan0
+ro.mediatek.wlan.wsc=1
+ro.mediatek.wlan.p2p=1
+mediatek.wlan.ctia=0
+
+# Camera
+PRODUCT_PRODUCT_PROPERTIES += \
+persist.camera.HAL3.enabled=1
+
+# Storage
+ro.sys.usb.storage.type=mtp,adb
+
+# Adding for Debugging
+persist.service.adb.enable=1
+persist.service.debuggable=1
+
+# Video Acceleration Enabled And HW debugging
+video.accelerate.hw=1
+debug.sf.hw=1
+debug.performance.tuning=1
+debug.egl.profiler=1 
+debug.egl.hw=1
+debug.composition.type=gpu 
 
 # MTK, Infinity, 20090720 {
 wifi.interface=wlan0
@@ -77,6 +117,13 @@ ro.sf.lcd_density=480
 ro.mtk_perf_simple_start_win=1
 ro.mtk_perf_fast_start_win=1
 ro.mtk_perf_response_time=1
+
+# Memory optimizations
+ro.sys.fw.bservice_enable=true \
+ro.sys.fw.bservice_limit=5 \
+ro.sys.fw.bservice_age=5000 \
+ro.am.reschedule_service=true \
+ro.sys.fw.bg_apps_limit=24
 
 # end of device/oppo/oppo6762/system.prop
 
