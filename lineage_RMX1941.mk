@@ -27,7 +27,7 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
 
 # Define first api level
-$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p_mr1.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
 
 # Bootanimation
 TARGET_SCREEN_WIDTH := 720
