@@ -37,6 +37,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     SystemUI
 
+#A/B
+AB_OTA_UPDATER := false
+
 # KPOC
 PRODUCT_PACKAGES += \
     libsuspend
